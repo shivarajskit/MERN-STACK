@@ -1,0 +1,264 @@
+---------------------------------
+1. CRUD Operations
+----------------------------------
+
+Insert
+// Insert one
+db.users.insertOne({ name: "Alice", age: 25, email: "alice@mail.com" });
+
+// Insert many
+db.users.insertMany([
+  { name: "Bob", age: 30 },
+  { name: "Charlie", age: 28 }
+]);
+
+Read
+// Find all
+db.users.find();
+
+// Find with condition
+db.users.find({ age: { $gt: 25 } });
+
+// Projection (return only certain fields)
+db.users.find({}, { name: 1, email: 1 });
+
+Update
+// Update one
+db.users.updateOne(
+  { name: "Alice" },
+  { $set: { age: 26 } }
+);
+
+// Update many
+db.users.updateMany(
+  { age: { $lt: 30 } },
+  { $inc: { age: 1 } } // increase age by 1
+);
+
+Delete
+db.users.deleteOne({ name: "Bob" });
+db.users.deleteMany({ age: { $gt: 40 } });
+
+
+👉 Practice:
+
+Build a users collection.
+
+Perform full CRUD cycle (insert → read → update → delete).
+
+Add queries with conditions like $in, $or, $regex.
+
+-----------------------------------------------
+2. Indexing
+-------------------------------------------------
+
+Indexes make queries faster but have trade-offs.
+
+Default
+
+Every document automatically gets an _id index.
+
+Create Index
+db.users.createIndex({ email: 1 }); // ascending
+db.users.createIndex({ name: -1 }); // descending
+
+Compound Index
+db.users.createIndex({ age: 1, city: -1 });
+
+Check Index Usage
+db.users.find({ email: "alice@mail.com" }).explain("executionStats");
+
+
+👉 Interview Tip:
+
+Indexes speed up reads but slow writes.
+
+Use them for fields you query often.
+
+Avoid creating too many.
+
+-------------------------------------------
+3. Aggregation Framework
+----------------------------------------------
+
+Used for advanced queries (like SQL GROUP BY).
+
+Example 1 – Group & Count
+db.orders.aggregate([
+  { $group: { _id: "$userId", totalOrders: { $sum: 1 } } }
+]);
+
+Example 2 – Average Age of Users
+db.users.aggregate([
+  { $group: { _id: null, avgAge: { $avg: "$age" } } }
+]);
+
+Example 3 – Sort & Limit
+db.users.aggregate([
+  { $sort: { age: -1 } },
+  { $limit: 5 }
+]);
+
+
+👉 Interview Tip:
+
+Aggregation pipeline = multiple stages ($match, $group, $project).
+
+Much more powerful than .find().
+
+-------------------------------------------
+4. Schema Design
+------------------------------------------------
+
+MongoDB is schema-less, but good design matters.
+
+Embedding
+{
+  name: "Alice",
+  orders: [
+    { product: "Laptop", price: 1000 },
+    { product: "Mouse", price: 20 }
+  ]
+}
+
+
+✅ Faster reads (one query)
+❌ Grows big quickly
+
+Referencing
+// users
+{ _id: 1, name: "Alice" }
+
+// orders
+{ _id: 101, userId: 1, product: "Laptop" }
+
+
+✅ Flexible, avoids duplication
+❌ Requires multiple queries (or populate in Mongoose)
+
+Relationships
+
+One-to-One → embed small docs.
+
+One-to-Many → reference large collections.
+
+Many-to-Many → use references + join logic.
+
+👉 Practice:
+
+Design schemas for an E-commerce App:
+
+users
+
+products
+
+orders (connects users & products)
+
+
+-------------------------------------------------------------------------------------
+🔥 MongoDB Q&A with Answers
+---------------------------------------------------------------------------------------
+
+1. Difference between findOne() and find()?
+
+findOne() → Returns the first matching document (or null if none).
+
+find() → Returns a cursor to all matching documents (can loop, use .toArray()).
+👉 Use findOne() for a single doc lookup (like login by email).
+👉 Use find() when you expect multiple results (like all orders of a user).
+
+2. How does indexing improve query performance?
+
+Without index → MongoDB does a collection scan (checks every document).
+
+With index → MongoDB looks up the value in a sorted index structure (like a book index).
+👉 Makes reads & queries faster, especially for large datasets.
+⚠️ Tradeoff → Slower writes (insert/update/delete) + more storage.
+
+3. Difference between updateOne() vs updateMany()?
+
+updateOne(filter, update) → Updates the first document matching the filter.
+
+updateMany(filter, update) → Updates all documents matching the filter.
+
+Example:
+
+db.users.updateOne({ age: { $gt: 25 } }, { $set: { status: "Active" } }); // 1 user
+db.users.updateMany({ age: { $gt: 25 } }, { $set: { status: "Active" } }); // all users >25
+
+4. What is the Aggregation pipeline?
+
+A data processing framework in MongoDB.
+
+Processes documents in stages ($match, $group, $sort, $project).
+
+Similar to SQL GROUP BY + HAVING + JOIN + ORDER BY.
+
+Example: Count orders per user:
+
+db.orders.aggregate([
+  { $group: { _id: "$userId", totalOrders: { $sum: 1 } } }
+]);
+
+5. When would you embed vs reference documents?
+
+Embed (nesting data inside doc) → When data is small, tightly coupled, and queried together.
+Example: user + address.
+
+Reference (separate collection, use _id) → When data is large, reused, or loosely coupled.
+Example: users and orders.
+
+👉 Rule of thumb:
+
+Embed for one-to-few, frequently accessed together.
+
+Reference for one-to-many or many-to-many, large data.
+
+6. SQL vs NoSQL schema design differences?
+
+SQL (Relational)
+
+Fixed schema (tables, columns).
+
+Normalization (avoid duplication).
+
+Joins across tables.
+
+NoSQL (MongoDB)
+
+Flexible schema (JSON-like docs).
+
+Denormalization (sometimes duplicate data for performance).
+
+Joins are rare (use embedding or populate).
+
+👉 SQL = consistency, structure.
+👉 NoSQL = flexibility, scalability.
+
+7. How to optimize MongoDB queries in a large dataset?
+
+Create indexes on frequently queried fields.
+
+Use projection to fetch only needed fields (find({}, { name: 1 })).
+
+Use pagination (limit + skip) instead of loading everything.
+
+Use aggregation pipeline instead of multiple queries.
+
+Avoid $regex without prefix (can’t use index).
+
+Use sharding for very large datasets.
+
+8. What are capped collections?
+
+Fixed-size collections in MongoDB.
+
+When full → oldest documents are overwritten automatically.
+
+Useful for logging, caching, real-time data (like sensor data).
+
+Example:
+
+db.createCollection("logs", { capped: true, size: 10000, max: 1000 });
+
+-------------------------------------------------------------------------------------
