@@ -1,0 +1,119 @@
+# folders/files to always ignore
+.metadata
+**/gensrc
+*.bak
+package-lock.json
+
+#IDE files
+.gradle
+.idea
+idea-module-files
+*.iml
+com.springsource.sts.config.flow.prefs
+org.sonar.ide.eclipse.core.prefs
+HybrisCodeGeneration.launch
+
+org.springframework.ide.eclipse.beans.core.prefs
+org.springframework.ide.eclipse.core.prefs
+.springBeans
+eclipsebin
+
+# NPM packages
+**/node_modules
+**/.angular
+**/.nx
+*.impex
+*.jpg
+**/dist/*
+**/core-customize/*
+**/core-customize/hybris/bin/custom/*
+
+# distribution files
+
+
+# Compiled class file
+*.class
+
+# Test classes
+**/testclasses
+
+# Allow only jalo/restrictions
+**/jalo/*
+!**/jalo/restrictions/
+
+# allow only custom extensions
+**/hybris/bin/*
+ 
+# Folders to ignore at the root of the repository
+**/hybris/roles/
+**/hybris/log/
+**/hybris/temp/
+**/hybris/data/
+**/hybris/config/orbeon
+
+# Filename patterns to ignore
+*.class
+build.xml
+Generated*.java
+platformhome.properties
+*testclasses.xml
+extensioninfo.xsd
+*hmc.jar
+hmc.xsd
+items.xsd
+beans.xsd
+ruleset.xml
+*.log
+.pmd
+*build.number
+
+base.properties
+#  Addon specific copy folders
+**/_ui/addons
+**/views/addons
+**/tld/addons
+**/tags/addons
+**/messages/addons
+**/web/addonsrc
+**/_ui-src/addons
+**/web/addontestsrc
+**/web/commonwebsrc/*/
+
+*_bof.jar
+
+# Java generated files #
+*.class
+*.war
+*.ear
+
+*.css
+*.css.map
+
+# Commerce Ant generated files #
+gensrc/
+build.xml
+extensioninfo.xsd
+hmc.xsd
+platformhome.properties
+*-testclasses.xml
+*-webtestclasses.xml
+*-hmctestclasses.xml
+beans.xsd
+items.xsd
+classes/
+eclipsebin/
+core-customize/hybris/config/hybris4intellij.properties
+
+# System Files
+.DS_Store
+.Thumbs.db
+
+# IDE - VSCode
+.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
