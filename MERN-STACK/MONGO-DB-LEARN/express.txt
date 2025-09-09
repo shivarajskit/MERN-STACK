@@ -1,0 +1,141 @@
+🚀 Express.js Core Topics
+1. REST APIs with Express
+
+Express is used to create REST APIs (CRUD endpoints).
+
+Basic structure:
+
+const express = require("express");
+const app = express();
+app.use(express.json()); // body parser
+
+// Example API
+app.get("/api/users", (req, res) => {
+  res.json([{ id: 1, name: "Shivaraj" }]);
+});
+
+app.listen(5000, () => console.log("Server running on port 5000"));
+
+
+👉 Learn:
+
+app.get, app.post, app.put, app.delete.
+
+Sending JSON responses.
+
+Status codes (res.status(201).json({ ... })).
+
+2. Routing in Express
+
+Route parameters:
+
+app.get("/users/:id", (req, res) => {
+  res.send(`User ID = ${req.params.id}`);
+});
+
+
+Query params:
+
+app.get("/search", (req, res) => {
+  res.send(`Query = ${req.query.q}`);
+});
+
+
+Modular routes (router):
+
+const router = require("express").Router();
+
+router.get("/", (req, res) => res.send("All users"));
+router.post("/", (req, res) => res.send("Create user"));
+
+app.use("/users", router);
+
+3. Middleware in Express
+
+Middleware = functions that run between request & response.
+
+Used for logging, authentication, parsing, validation.
+
+Example:
+
+// Custom middleware
+function logger(req, res, next) {
+  console.log(`${req.method} ${req.url}`);
+  next(); // pass control
+}
+
+app.use(logger);
+
+app.get("/", (req, res) => {
+  res.send("Home page");
+});
+
+
+👉 Types of middleware:
+
+Application-level → app.use()
+
+Router-level → router.use()
+
+Built-in → express.json(), express.urlencoded()
+
+Error-handling → (err, req, res, next)
+
+4. Error Handling
+
+Global error handler:
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: err.message });
+});
+
+
+Example usage:
+
+app.get("/error", (req, res, next) => {
+  try {
+    throw new Error("Something went wrong!");
+  } catch (err) {
+    next(err); // send to error handler
+  }
+});
+
+💡 Interview Q&A
+1. What are middlewares in Express?
+
+👉 Functions that process requests before sending response. They can log, authenticate, validate, handle errors.
+
+2. Difference between app.use() and app.get()?
+
+app.use() → for middleware or mounting routers.
+
+app.get() → specific route handler (only GET requests).
+
+3. How do you handle errors in Express?
+
+Use a middleware with 4 params: (err, req, res, next).
+
+Example:
+
+app.use((err, req, res, next) => {
+  res.status(500).json({ message: err.message });
+});
+
+4. What’s the difference between res.send() and res.json()?
+
+res.send() → can send string, buffer, object.
+
+res.json() → always sends JSON + sets Content-Type: application/json.
+
+5. How do you secure Express APIs?
+
+Use Helmet (security headers).
+
+Enable CORS properly.
+
+Use JWT authentication.
+
+Apply rate limiting.
+
+Sanitize input to prevent SQL/NoSQL injection.
