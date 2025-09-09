@@ -36,7 +36,7 @@ app.get("/users/:id", (req, res) => {
 
 Query params:
 
-app.get("/search", (req, res) => {
+app.get("/search?q=123", (req, res) => {
   res.send(`Query = ${req.query.q}`);
 });
 
