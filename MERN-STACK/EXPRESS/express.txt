@@ -1,5 +1,7 @@
 🚀 Express.js Core Topics
+------------------------------------------
 1. REST APIs with Express
+-------------------------------------------
 
 Express is used to create REST APIs (CRUD endpoints).
 
@@ -25,7 +27,9 @@ Sending JSON responses.
 
 Status codes (res.status(201).json({ ... })).
 
+---------------------------------
 2. Routing in Express
+-----------------------------
 
 Route parameters:
 
@@ -50,7 +54,9 @@ router.post("/", (req, res) => res.send("Create user"));
 
 app.use("/users", router);
 
+-------------------------------
 3. Middleware in Express
+----------------------------------
 
 Middleware = functions that run between request & response.
 
@@ -81,7 +87,9 @@ Built-in → express.json(), express.urlencoded()
 
 Error-handling → (err, req, res, next)
 
+--------------------------
 4. Error Handling
+---------------------------
 
 Global error handler:
 
@@ -101,7 +109,11 @@ app.get("/error", (req, res, next) => {
   }
 });
 
+
+-----------------------------------------------------------------------------------------------------------------------
 💡 Interview Q&A
+
+------------------------------------------------------------------------------------------------------------------------
 1. What are middlewares in Express?
 
 👉 Functions that process requests before sending response. They can log, authenticate, validate, handle errors.
@@ -139,3 +151,364 @@ Use JWT authentication.
 Apply rate limiting.
 
 Sanitize input to prevent SQL/NoSQL injection.
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+🚀 Mini Project: Users API
+📌 Features
+
+Create a new user
+
+Get all users
+
+Get user by ID
+
+Update user
+
+Delete user
+
+Error handling + middleware
+
+------------------------------------
+1. Setup Project
+--------------------------------
+mkdir users-api
+cd users-api
+npm init -y
+npm install express mongoose dotenv
+
+
+Create a file: server.js
+
+----------------------------------------------
+2. Basic Server Setup
+-------------------------------------------------
+const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const app = express();
+app.use(express.json()); // middleware to parse JSON
+
+// Connect MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error(err));
+
+// Routes
+app.get("/", (req, res) => {
+  res.send("Users API is running...");
+});
+
+app.listen(5000, () => console.log("Server running on port 5000"));
+
+-------------------------------------
+3. Create User Model
+---------------------------------------
+
+models/User.js
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  age: { type: Number, default: 18 },
+}, { timestamps: true });
+
+module.exports = mongoose.model("User", userSchema);
+
+---------------------------------------
+4. Routes (CRUD APIs)
+--------------------------------------------------
+
+routes/userRoutes.js
+
+const express = require("express");
+const User = require("../models/User");
+
+const router = express.Router();
+
+// CREATE user
+router.post("/", async (req, res, next) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (err) {
+    next(err); // pass to error handler
+  }
+});
+
+// READ all users
+router.get("/", async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// READ one user
+router.get("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// UPDATE user
+router.put("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// DELETE user
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json({ message: "User deleted" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;
+
+---------------------------------------
+5. Plug Routes into Server
+---------------------------------------
+
+Update server.js:
+
+const userRoutes = require("./routes/userRoutes");
+
+app.use("/api/users", userRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: err.message });
+});
+
+----------------------------
+6. Test APIs
+--------------------------------------
+
+Use Postman or cURL:
+
+POST /api/users → Create user
+
+{
+  "name": "Shivaraj",
+  "email": "shivaraj@example.com",
+  "password": "test@123"
+}
+
+
+GET /api/users → Get all users
+
+GET /api/users/:id → Get single user
+
+PUT /api/users/:id → Update user
+
+DELETE /api/users/:id → Delete user
+
+✅ With this, you’ve built:
+
+REST APIs
+
+Routes (modular with router)
+
+Middleware (express.json, error handling)
+
+Error handler
+
+---------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------
+🔒 Securing Express API
+--------------------------------------------------------------
+
+
+1. Install Required Packages
+--------------------------------------------------------------
+npm install helmet cors express-rate-limit bcryptjs jsonwebtoken express-mongo-sanitize
+
+--------------------------------------------------------------
+2. Apply Security Middleware in server.js
+--------------------------------------------------------------
+const express = require("express");
+const mongoose = require("mongoose");
+const helmet = require("helmet");
+const cors = require("cors");
+const rateLimit = require("express-rate-limit");
+const mongoSanitize = require("express-mongo-sanitize");
+require("dotenv").config();
+
+const userRoutes = require("./routes/userRoutes");
+
+const app = express();
+
+// ✅ Middleware
+app.use(express.json());
+app.use(helmet()); // Security headers
+app.use(cors({ origin: "*" })); // allow all origins (adjust in prod)
+app.use(mongoSanitize()); // Prevent NoSQL injection
+
+// ✅ Rate limiting (100 requests per 15 minutes per IP)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+app.use(limiter);
+
+// Routes
+app.use("/api/users", userRoutes);
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: err.message });
+});
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error(err));
+
+app.listen(5000, () => console.log("Server running on port 5000"));
+
+--------------------------------------------------------------
+3. Add JWT Authentication
+--------------------------------------------------------------
+(a) Create middleware/auth.js
+const jwt = require("jsonwebtoken");
+
+function auth(req, res, next) {
+  const token = req.header("Authorization")?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Access denied, no token" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // attach payload to request
+    next();
+  } catch (err) {
+    res.status(400).json({ message: "Invalid token" });
+  }
+}
+
+module.exports = auth;
+
+(b) Add Authentication Routes
+
+routes/authRoutes.js
+
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
+const router = express.Router();
+
+// REGISTER
+router.post("/register", async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({ name, email, password: hashedPassword });
+    res.status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// LOGIN
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+    // Create JWT token
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({ token });
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;
+
+-----------------------------------------------
+4. Protect Routes
+-----------------------------------------------
+
+Update userRoutes.js to use auth middleware:
+
+const express = require("express");
+const User = require("../models/User");
+const auth = require("../middleware/auth");
+
+const router = express.Router();
+
+// ✅ Protected route
+router.get("/", auth, async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;
+
+-----------------------------------------------
+5. Update server.js to Include Auth Routes
+-----------------------------------------------
+const authRoutes = require("./routes/authRoutes");
+
+app.use("/api/auth", authRoutes); // register, login
+
+-------------------------------------
+
+✅ What We Achieved
+----------------------------------------------
+
+Helmet → Adds HTTP security headers
+
+CORS → Controls cross-origin requests
+
+JWT → Secure authentication system
+
+Rate limiting → Prevents brute-force attacks
+
+Input sanitization → Prevents MongoDB injection attacks
+
+-----------------------------------------------------------------------------------------
