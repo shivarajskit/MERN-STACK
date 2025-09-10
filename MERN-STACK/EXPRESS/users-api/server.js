@@ -1,6 +1,26 @@
 const express = require('express');
 const app = express();
+
+// Secure APIs
+const helmet = require('helmet');
+const cors = require('cors');
+const mongoSanitize = require('express-mongo-sanitize');
+const rateLimit = require('express-rate-limit');
+
+// Middleware
 app.use(express.json());
+app.use(helmet()); // set security headers
+app.use(cors({origin: '*'})); // allow all origins (adjust in prod)
+app.use(mongoSanitize()); // prevent NoSQL injection
+
+// Rate limiting (100 requests per 15 minutes per IP)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests
+  message: 'Too many requests from this IP, please try again later.'
+});
+
+app.use(limiter); // apply rate limiting to all requests
 
 const mongoose = require('mongoose');
 require('dotenv').config();
