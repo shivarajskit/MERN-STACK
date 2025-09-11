@@ -11,7 +11,7 @@ const rateLimit = require('express-rate-limit');
 app.use(express.json());
 app.use(helmet()); // set security headers
 app.use(cors({origin: '*'})); // allow all origins (adjust in prod)
-app.use(mongoSanitize()); // prevent NoSQL injection
+//app.use(mongoSanitize()); // prevent NoSQL injection
 
 // Rate limiting (100 requests per 15 minutes per IP)
 const limiter = rateLimit({
@@ -26,6 +26,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 
 
@@ -34,6 +35,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => console.log('MongoDB connecte
   .catch(err => console.log(err));
 
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes); // register, login
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
