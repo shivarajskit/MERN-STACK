@@ -1,0 +1,291 @@
+1. Event Loop
+
+What it is: Node.js is single-threaded but uses an event loop to handle async tasks.
+
+Phases: timers → I/O callbacks → idle/prepare → poll → check → close callbacks.
+
+Example:
+
+console.log("Start");
+setTimeout(() => console.log("Timeout"), 0);
+Promise.resolve().then(() => console.log("Promise"));
+console.log("End");
+// Output: Start → End → Promise → Timeout
+
+
+Interview Q: Why doesn’t setTimeout(fn, 0) run immediately?
+A: It goes to the timer queue, and the event loop checks it after finishing the current stack + microtasks.
+
+⏳ 2. Async / Await
+
+Async functions return a Promise.
+
+Await pauses execution until Promise resolves.
+
+Example:
+
+const fetchData = async () => {
+  try {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+  }
+};
+fetchData();
+
+
+Interview Q: Difference between Promise.then and async/await?
+A: Both handle async code; async/await is syntactic sugar that makes code look synchronous.
+
+📂 3. File Handling (fs module)
+
+Methods: readFile, writeFile, appendFile, unlink, rename
+
+Example:
+
+const fs = require("fs");
+
+fs.writeFile("test.txt", "Hello World", (err) => {
+  if (err) throw err;
+  console.log("File created!");
+});
+
+
+Use promises:
+
+const fs = require("fs/promises");
+(async () => {
+  await fs.writeFile("test.txt", "Hello Async FS!");
+  console.log("File created with async/await");
+})();
+
+🌊 4. Streams
+
+Process data in chunks instead of loading whole file in memory.
+
+Types: Readable, Writable, Duplex, Transform.
+
+Example:
+
+const fs = require("fs");
+const readStream = fs.createReadStream("bigfile.txt", "utf8");
+const writeStream = fs.createWriteStream("output.txt");
+
+readStream.pipe(writeStream);
+
+
+Interview Q: Why streams?
+A: Efficient memory usage for large files.
+
+🔑 5. Authentication & Authorization
+
+Authentication → Who you are (login/register).
+
+Authorization → What you can access (roles, permissions).
+
+🔐 6. JWT Flow
+
+User registers/logs in.
+
+Server verifies credentials, creates a JWT (with payload: { id, role }).
+
+JWT is signed with a secret key and returned to client.
+
+Client stores token (localStorage or HttpOnly cookie).
+
+For protected routes → client sends Authorization: Bearer <token>.
+
+Server middleware verifies JWT before allowing access.
+
+Example Middleware:
+
+const jwt = require("jsonwebtoken");
+
+function authMiddleware(req, res, next) {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token" });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
+    req.user = user;
+    next();
+  });
+}
+
+🛡 7. Role-Based Access Control (RBAC)
+
+Store roles in JWT payload or DB (admin, user, manager).
+
+Middleware checks role before route execution.
+
+Example:
+
+function roleMiddleware(roles) {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+    next();
+  };
+}
+
+// Usage:
+app.get("/admin", authMiddleware, roleMiddleware(["admin"]), (req, res) => {
+  res.send("Welcome Admin!");
+});
+
+
+✅ So this Node.js section will cover:
+
+Event Loop
+
+Promises & Async/Await
+
+fs & Streams
+
+JWT Auth flow
+
+RBAC
+
+
+-------------------------------------------------------------------------------------------
+
+Interview Q&A
+-------------------------------------------------------------------------------------------
+
+
+Event Loop
+
+Q1. What is the Event Loop in Node.js?
+👉 The Event Loop is what allows Node.js to handle async operations on a single thread. It processes the call stack and task queues (callbacks, promises, timers) in phases.
+
+Q2. What are the phases of the Event Loop?
+👉 Timers → I/O callbacks → idle/prepare → poll → check → close callbacks → microtasks (Promises, process.nextTick).
+
+Q3. What’s the difference between process.nextTick() and setImmediate()?
+👉 process.nextTick() executes before the next event loop tick (higher priority).
+👉 setImmediate() runs at the check phase, after I/O events.
+
+Q4. Why doesn’t setTimeout(fn, 0) run immediately?
+👉 Because it goes to the timers queue, executed only after the current call stack and microtasks are done.
+
+Async / Await
+
+Q5. Difference between .then() and async/await?
+👉 .then() chains promises, while async/await makes async code look synchronous. Both are built on Promises.
+
+Q6. How do you handle errors in async/await?
+👉 Use try/catch:
+
+try {
+  const data = await fetchData();
+} catch (err) {
+  console.error(err);
+}
+
+
+Q7. Can you use await outside an async function?
+👉 No (except in ES modules / Node 14+ REPL). Await must be inside an async function.
+
+fs Module
+
+Q8. Difference between fs.readFile and fs.createReadStream?
+👉 fs.readFile reads the entire file into memory (blocking for large files).
+👉 fs.createReadStream reads in chunks (better for big files).
+
+Q9. How to write a file using Promises in Node.js?
+👉 Using fs/promises:
+
+const fs = require("fs/promises");
+await fs.writeFile("test.txt", "Hello World");
+
+Streams
+
+Q10. What are Streams in Node.js?
+👉 Streams let you process data piece by piece instead of loading everything in memory.
+
+Q11. Example of piping in streams?
+👉 Copy a file:
+
+fs.createReadStream("input.txt").pipe(fs.createWriteStream("output.txt"));
+
+
+Q12. Why are Streams useful?
+👉 They improve memory efficiency and performance when handling large files or continuous data.
+
+Authentication vs Authorization
+
+Q13. Difference between authentication and authorization?
+👉 Authentication → Verifying identity (login).
+👉 Authorization → Verifying permissions (roles, access control).
+
+JWT
+
+Q14. How does JWT authentication work?
+👉 Login → Server generates JWT (signed with secret) → Client stores it → Client sends token in Authorization header → Server verifies token.
+
+Q15. Why use JWT instead of sessions?
+👉 JWT is stateless and scalable across distributed servers. Sessions require server-side storage.
+
+Q16. How do you secure JWT tokens?
+👉 Use HTTPS, store in HttpOnly cookies, set short expiry, rotate with refresh tokens.
+
+RBAC
+
+Q17. What is Role-Based Access Control (RBAC)?
+👉 RBAC restricts access based on user roles (e.g., admin, user).
+
+Q18. Example RBAC middleware?
+
+function roleMiddleware(roles) {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) return res.status(403).send("Denied");
+    next();
+  };
+}
+
+General Node.js
+
+Q19. What is middleware in Express?
+👉 Middleware is a function that executes during the request-response cycle. Used for logging, auth, error handling, etc.
+
+Q20. How does clustering improve Node.js performance?
+👉 Node.js is single-threaded. Clustering allows using multiple CPU cores by spawning worker processes.
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+What’s still missing for Node.js mastery
+
+------------------------------------------------------------------------------------------------------------------------------
+Core Node APIs
+
+Path, OS, Crypto, HTTP/HTTPS module
+
+Child processes & clustering
+
+Advanced Topics
+
+Performance tuning (cluster, worker threads, caching with Redis)
+
+Scaling Node apps in production
+
+Debugging & profiling (node --inspect, Chrome DevTools)
+
+Testing
+
+Unit testing with Jest / Mocha + Supertest (for APIs)
+
+Security in depth
+
+Preventing XSS, CSRF, NoSQL injection, rate limiting, Helmet
+
+Environment variable management (dotenv, config)
+
+Database integration
+
+MongoDB driver (already started)
+
+Mongoose advanced (virtuals, hooks, transactions, aggregation pipelines)
