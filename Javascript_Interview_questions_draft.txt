@@ -1,0 +1,406 @@
+HTML5 Questions
+------------------------------------------------------------
+1. html5 doctype
+2. html5 new featres
+3. session storage vs local storage
+4. purpose of (header, footer, aside, section, footer) elements
+5. how to remove a property from localstorage. (localStorage.removeItem())
+6. Can you list the new input type attributes in HTML5?
+    tel,  The input is of type telephone number
+	search The input field is a search field
+	url a URL
+	email One or more email addresses
+	datetime A date and/or time
+	date A date
+	month A month
+	week A week
+	time The input value is of type time
+	datetime-local A local date/time
+	number A number.
+	range A number in a given range.
+	color A hexadecimal color, like #82345c
+	placeholder Specifies a short hint that describes the expected value of an input field.
+7. 	
+
+
+
+CSS3 Interview Questions
+------------------------------------------------------------------------
+1. List out CSS3 modules?
+    Selectors
+	Box Model
+	Backgrounds and Borders
+	Text Effects
+	2D/3D Transformations
+	Animations
+	Multiple Column Layout
+	User Interface
+2. What are the possible values of the “Position” attributes?
+   absolute
+	fixed
+	inherit
+	relative
+	static	
+3. What are CSS3 Transitions?
+	div {
+    -webkit-transition: width 2s, height 4s; /* Safari */
+     transition: width 2s, height 4s;
+}
+
+4. PSeudo classes?
+ nth clild? or apply style to alternate divs
+ 
+
+js questions
+--------------------------
+
+1. What are JavaScript Data Types?
+	Number
+	String
+	Boolean
+	Object
+	Undefined
+2. document.write vs console.log
+3. slice vs splice
+4. window.onload vs document.ready
+5. es6 new features?   var vs let?
+
+6. how to remove all items from array
+7. this keyword in js
+8. this == window ?  true
+9. typeof undefined; // undefined 
+	typeof null;      // object 
+	typeof {};        // object 
+10. var foo = 'bar'; 
+	if (true) {     var foo = 'baz'; } 
+	 
+	console.log(foo);     // baz 
+--------------------
+	function test() {     var foo = 'test'; // new scope } 
+ 
+	test(); 
+	console.log(foo);     // baz 
+
+11. var foo = 'bar';         // global scope 
+ 
+	console.log(window.foo);
+
+	
+12. variable hoisting?
+13. use of map function in javascript
+14. how to get all the keys from json object?    Object.keys(obj)	
+15. promises in javascript?
+16. var a = {b: 1};
+	var b = a;
+	b.b = 5;
+	console.log(a.b); // 5
+17. how to do inheritance in js?
+18. how to add you own functionality method to an array.
+19. without onclick/submit how to make it click ?
+20. event bubbling and capturing? how to stop it?   event.stopPropagation() 
+21. when you click on a link it opens url in href attribute. how to stop it?  event.preventDefault() 	
+22. var arr = [1,2];
+	arr[10] = 100;
+	arr.length?  what is arr[5]?
+23. var arr = [1,2,3,4,5];
+
+var arr2 = arr.map(v => v*2);	 // [2, 4, 6, 8, 10]
+
+24. console.log(1);
+	setTimeout(function(){
+	   console.log(2);
+	});
+	setTimeout(function(){
+	   console.log(3);
+	},0);
+	console.log(4); // 1, 4, 2, 3
+	
+25. How to add your own method to existing Array object	
+26. What would be the result of 3+2+"7"? // "57"
+27. How can a value be appended to an array? // arr[arr.length] = value;
+28. Call and Apply
+
+	var someObject = {
+	myProperty : 'Foo',
+
+	myMethod : function(prefix, postfix) {
+
+		alert(prefix + this.myProperty + postfix);
+	}
+	};
+	someObject.myMethod('<', '>'); // alerts '<Foo>'
+	var someOtherObject  = {
+
+		myProperty : 'Bar'
+
+	};
+	someObject.myMethod.call(someOtherObject, '<', '>'); // alerts '<Bar>'
+
+	someObject.myMethod.apply(someOtherObject, ['<', '>']); // alerts '<Bar>'
+	
+	
+	scenario JS
+1. you need to set an alarm tomorrow at the same time to notify about something like in outlook. How you implemet in javascript.?
+
+
+
+
+CSS3
+1. How to place 4 divs on each corners of the window
+2. div with id and class each with different background color. Which color applies to div
+3. 2 divs with same id. what happens when you apply backgroundcolor to that id
+4. cross browser issues how to handle 
+5. opacity in CSS3? how to achieve without opacity (rgba) 4th value is opacity
+
+
+Angular 6
+---------------
+
+1. how child to parent and parent to child communication happens in angular?
+2. how to communicate between components in angular
+3. Explain Modules in Angular 2.   bootstrap array, imports and exports array
+4. how angular knows what packages and version to download?    package.json
+5. how to enable debugging in angular  : devtool : "source-map" in webpack.config.json
+6. use of angular cli?
+7. How will you convert an input to all lowercase?
+8. Observable response edit (pipe(map()))
+9. interceptors uses and how to implement
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+NEWLY ADDED
+---------------------------------------------------------------------------------------------------------------
+
+1. 
+
+console.log(10);
+setTimeout(function(){console.log(20)});
+setTimeout(function(){console.log(30)},100);
+setTimeout(function(){console.log(40)},0);
+console.log(50); // 10, 50,  20, 40, 30
+
+2.
+
+var x=function(){
+this.x=10;
+console.log(x);
+}
+x();
+console.log(x);  // 10, 10
+
+3.
+
+var a = {b: 1};
+var b = a;
+b.b = 5;
+console.log(a.b); // 5
+
+
+4.
+
+ var add=function(a,b){
+	return a+b;
+ }
+ var adder=partial(add,1);
+ console.log(adder(3));  //4
+
+	function partial(callback, val) {
+		return function(x) { return callback(val, x) };
+	}
+
+
+
+
+1. 
+
+var arr = [1, 2, 3]; 
+var arrRef = arr; 
+arr.push(4); 
+console.log(arr.length);    // 4 
+console.log(arrRef.length); // 4
+
+2.
+
+var arr = [1, 2, 3]; 
+var arrRef = arr; 
+arr = [1, 2]; 
+ 
+console.log(arr.length);    // 2 
+console.log(arrRef.length); // 3
+
+3.
+
+var str = 'foo'; 
+var strRef = str; 
+str += 'bar';               // new object instance has been created 
+ 
+console.log(str);           // foobar console.log(strRef);
+
+4.
+ 
+function test(a, b) {     return 'baz'; } 
+ 
+console.log(test());     // baz 
+console.log(test(true)); // baz 
+console.log(test(1, 2)); // baz 
+
+5.
+
+typeof undefined; // undefined 
+typeof null;      // object 
+typeof {};        // object 
+typeof [];        // object 
+typeof 1;         // number 
+typeof 1.2;       // number 
+typeof true;      // bool 
+typeof alert;     // function
+
+6.
+
+var foo = 'bar'; 
+if (true) {     var foo = 'baz'; } 
+ 
+console.log(foo);     // baz 
+ 
+function test() {     var foo = 'test'; // new scope } 
+ 
+test(); 
+console.log(foo);     // baz 
+
+7.  
+
+var foo = 'bar';         // global scope 
+ 
+console.log(window.foo); // bar 
+ 
+function test() {     foo = 'baz';         // no var here, modifies global scope value } 
+ 
+test(); 
+ 
+console.log(foo);        // baz console.log(window.foo); // baz
+
+---------------------------------------------------------------------------------------------------------
+
+8 const funnyNumber = (array) => {
+	for (let i=0; i<array.length; i++) {
+		if (i===3) return array[i];
+	}
+	//return array[3];
+}
+
+const nums = [25, 100, 256, 12, 458, 136];
+
+console.time('funnyNumb');
+console.log(funnyNumber(nums));
+console.timeEnd('funnyNumb');
+
+// If only constant number of operations then "Time Complexity" is O(1) (read as: Big Oh of 1)
+// If n times run with constant number of operations (ex: A for loop with console.logs) then "Time Complexity" is O(n) (read as: Big Oh of n)
+// If n * n times run with constant number of operations (ex: A for loop with nested for loops with console.logs) then "Time Complexity" is O(n^2) (read as: Big Oh of n squared) (on eof the Worst cases as it raises exponentially)
+
+
+
+const people = {
+   Ram: {
+      id: 1,
+      details: {
+         age: 31,
+		 fullName: 'Ram Kumar',
+         isEmployed: true
+      }
+   },
+   Sourav: {
+      id: 2, 
+      details: {
+         age: 22,
+		 fullName: 'Sourav Singh',
+         isEmployed: false
+      }
+   },
+   Jay: {
+      id: 3,
+      details: {
+         age: 26,
+		 fullName: 'Jay Grewal',
+         isEmployed: true
+      }
+   }
+}
+const recursiveSearch = (obj, searchKey, results = []) => {
+   const r = results;
+   Object.keys(obj).forEach(key => {
+      const value = obj[key];
+      if(key === searchKey && typeof value !== 'object'){
+         r.push(value);
+      }else if(typeof value === 'object'){
+         recursiveSearch(value, searchKey, r);
+      }
+   });
+   return r;
+};
+//console.log(recursiveSearch(people, 'fullName'));
+
+
+//const str = 'hello';
+let reversedStr = '';
+const reverse = (str) => {
+	
+	if (str == '') {
+		return str;
+	}
+	return reverse(str.substr(1))+str.charAt(0);
+	
+} 
+
+console.log(reverse('hello'));
+
+let result = [];
+let tempArr = [];
+
+let subset = (arr, i) => {
+	if (arr.length === i) {
+		return result.push([...tempArr]);
+	}
+	tempArr.push(arr[i]);
+	subset(arr, i+1);
+	tempArr.pop();
+	subset(arr, i+1);
+}
+subset([1], 0);
+console.log(result);
+
+
+// Javascript Object Deep Copy code by Chat GPT
+
+let obj = {
+	name: 'Shiv',
+	age: 34,
+	company: {
+		name: 'trelleborg',
+		org: {
+			name: 'tss india',
+			address: 'e-city'
+		}
+	},
+	results: [65, 69, 72]
+}
+
+function deepCopy(original) {
+  let copy = Array.isArray(original) ? [] : {};
+  for (let key in original) {
+    if (typeof original[key] === 'object') {
+      copy[key] = deepCopy(original[key]);
+    } else {
+      copy[key] = original[key];
+    }
+  }
+  return copy;
+}
+
+let copiedObj = deepCopy(obj);
+
+console.log("Copied Object: ", copiedObj)
