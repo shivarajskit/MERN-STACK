@@ -1,0 +1,101 @@
+Components, Props, State, JSX
+
+✅ Learn:
+
+Functional components (React.FC<Props>).
+
+Props typing (interfaces).
+
+Local state with useState<T>().
+
+JSX expressions & conditional rendering.
+
+⚡ Mini Project:
+
+Build a To-Do app (frontend React + backend Node/MongoDB).
+
+Backend: Create tasks collection ({title, completed}) in MongoDB.
+
+Express API: GET /tasks, POST /tasks, PATCH /tasks/:id, DELETE /tasks/:id.
+
+Frontend: Fetch tasks, display list, toggle complete, delete.
+
+Style with Tailwind (cards, buttons, form).
+
+Day 10–11 → Hooks & API Calls
+
+✅ Learn:
+
+useState → Local state.
+
+useEffect → Side effects (API calls, subscriptions).
+
+useContext → Global state (theme/auth).
+
+useReducer → Manage complex state (e.g., Todo reducer).
+
+API calls → fetch vs axios + error handling.
+
+⚡ Mini Project:
+
+Extend To-Do app with:
+
+Loading spinner (isLoading).
+
+Error message (error).
+
+Use a useReducer for tasks instead of multiple states.
+
+Try axios with interceptors for error logging.
+
+Day 12 → React Router + Private Routes
+
+✅ Learn:
+
+Install: npm install react-router-dom.
+
+Routes, Route, Link, useNavigate, useParams.
+
+Nested routes.
+
+Private routes (redirect if not authenticated).
+
+⚡ Mini Project:
+
+Add authentication to To-Do app:
+
+Pages: /login, /register, /dashboard.
+
+Store JWT from backend in localStorage or HttpOnly cookie.
+
+Private route wrapper → If no token, redirect to /login.
+
+Day 13–14 → State Management + Forms
+
+✅ Learn:
+
+Redux Toolkit → slices, store, dispatch, selectors.
+
+Context API → good for smaller apps.
+
+Form handling: controlled inputs, validation (required, min length).
+
+Optional: React Hook Form (react-hook-form) for cleaner validation.
+
+⚡ Mini Project:
+
+Convert auth & tasks to Redux Toolkit:
+
+authSlice → user, token, login/logout.
+
+tasksSlice → tasks, loading, error.
+
+Add form validation (login & signup forms).
+
+🎯 End of Week 2 Outcomes:
+
+You’ll have a To-Do MERN app (with auth + protected routes).
+
+You’ll know components, props, state, hooks, router, Redux, forms.
+
+This app will become your portfolio-ready project.
