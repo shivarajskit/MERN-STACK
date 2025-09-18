@@ -1,6 +1,6 @@
 Components, Props, State, JSX
 
-✅ Learn:
+✅ Learn: 
 
 Functional components (React.FC<Props>).
 
@@ -21,7 +21,7 @@ Express API: GET /tasks, POST /tasks, PATCH /tasks/:id, DELETE /tasks/:id.
 Frontend: Fetch tasks, display list, toggle complete, delete.
 
 Style with Tailwind (cards, buttons, form).
-
+---------------------------------------------------------- - Done✅
 Day 10–11 → Hooks & API Calls
 
 ✅ Learn:
