@@ -47,7 +47,7 @@ Error message (error).
 Use a useReducer for tasks instead of multiple states.
 
 Try axios with interceptors for error logging.
-
+---------------------------------------------------------------- - Done✅
 Day 12 → React Router + Private Routes
 
 ✅ Learn:
@@ -69,6 +69,7 @@ Pages: /login, /register, /dashboard.
 Store JWT from backend in localStorage or HttpOnly cookie.
 
 Private route wrapper → If no token, redirect to /login.
+---------------------------------------------------------------------------------- - Done✅
 
 Day 13–14 → State Management + Forms
 
