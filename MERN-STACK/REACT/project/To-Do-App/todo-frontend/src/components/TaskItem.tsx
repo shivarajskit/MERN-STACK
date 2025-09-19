@@ -9,18 +9,16 @@ interface Props {
 
 const TaskItem: React.FC<Props> = ({ task, toggleTask, deleteTask }) => {
   return (
-    <li className="flex justify-between items-center p-2 border-b">
+    <li className="task-item">
       <span
-        onClick={() => toggleTask(task._id, task.completed)}
-        className={`cursor-pointer ${
-          task.completed ? "line-through text-gray-500" : ""
-        }`}
+        onClick={() => toggleTask(task._id, task.completed )}
+        className={`task-title ${task.completed ? "task-completed" : ""}`}
       >
         {task.title}
       </span>
       <button
         onClick={() => deleteTask(task._id)}
-        className="text-red-500"
+        className="btn-delete"
       >
         ✕
       </button>

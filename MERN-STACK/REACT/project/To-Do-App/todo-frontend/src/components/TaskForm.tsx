@@ -17,15 +17,15 @@ const TaskForm: React.FC<TaskProps> = ({addTask}) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+        <form onSubmit={handleSubmit} className="form-row">
             <input value={title}
                 onChange={e => setTitle(e.target.value)}
                 placeholder="Add a new task"
-                className="border p-2 flex-grow rounded"
+                className="input flex-grow"
             />
             <button 
                 type="submit" 
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                className="btn-add">
                 Add
             </button>
         </form>
