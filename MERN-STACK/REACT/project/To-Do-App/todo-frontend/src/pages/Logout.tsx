@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../store/hooks";
+import { logout } from "../store/slices/authSlice";
 
 const Logout: React.FC = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     return (
         <button
             onClick={() => {
-                localStorage.removeItem('token');
+                dispatch(logout());
                 navigate('/login');
             }}
             className="btn-logout"
