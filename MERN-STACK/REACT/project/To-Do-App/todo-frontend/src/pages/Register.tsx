@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterSchemaType } from "../validation/registerSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerUser } from "../store/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -18,10 +19,11 @@ const Register: React.FC = () => {
 
     const onSubmit = async (data: RegisterSchemaType) => {
         try {
-            await dispatch(registerUser(data)).unwrap(); // ✅ unwrap rejects on error
-            navigate("/login"); // ✅ redirect on success
+            await dispatch(registerUser(data)).unwrap(); // ✅ unwrap ensures error is caught
+            toast.success("Registration successful! Please login."); // ✅ success message
+            setTimeout(() => navigate("/login"), 1500); // ✅ redirect after short delay
         } catch (err) {
-            console.error("Registration failed:", err);
+            toast.error("Registration failed. Please try again."); // ✅ error toast
         }
     }
     return (
