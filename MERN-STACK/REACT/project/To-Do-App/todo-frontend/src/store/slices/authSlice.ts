@@ -1,9 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import api from "../../api";
-import { useNavigate } from "react-router-dom";
+
+interface User {
+    id: string;
+    email: string;
+}
 
 interface AuthState {
-    user: string | null;
+    user: User | null;
     token: string | null;
     loading: boolean;
     error: string | null;
@@ -16,11 +20,41 @@ const initialState: AuthState = {
     error: null
 }
 
+// 🔹 Register thunk
+export const registerUser = createAsyncThunk(
+    'auth/registerUser',
+    async (
+        {userName, email, password}: { userName: string; email: string; password: string; },
+        { rejectWithValue }
+    ) => {
+        try {
+            const response = await api.post('/api/auth/register', { 
+                userName, 
+                email, 
+                password 
+            });
+            return response.data; // { user, token }
+         } catch (err: any) {
+      return rejectWithValue(err.response?.data?.message || "Register failed");
+    }
+    }
+);
+
+// 🔹 Login thunk
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
-    async ({email, password}: { email: string; password: string; }) => {
-        const response = await api.post('/api/auth/login', { email, password });
-        return response.data;
+    async ({email, password}: { email: string; password: string; },
+        { rejectWithValue }
+    ) => {
+        try {
+            const response = await api.post('/api/auth/login', { 
+                email, 
+                password 
+            });
+            return response.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.message || "Login failed");
+        }
     }
 );
 
@@ -35,6 +69,21 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+        // Register cases
+        builder.addCase(registerUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(registerUser.fulfilled, (state) => {
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
+            state.loading = false;
+            state.error = action.payload as string || "Register failed";
+        });
+
+        // Login cases
         builder.addCase(loginUser.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -47,7 +96,7 @@ const authSlice = createSlice({
         })
         .addCase(loginUser.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message || "Login failed";
+            state.error = action.payload as string || "Login failed";
         })
     }
 });
