@@ -58,6 +58,32 @@ export const loginUser = createAsyncThunk(
     }
 );
 
+// store/slices/authSlice.ts
+export const checkAuth = createAsyncThunk(
+  "auth/checkAuth",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/api/auth/refresh-token"); // backend uses cookie
+      return response.data; // { accessToken }
+    } catch (err: any) {
+      return rejectWithValue("Not authenticated");
+    }
+  }
+);
+
+// Logout User
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      await api.post("/api/auth/logout", {}, { withCredentials: true });
+      return true;
+    } catch (err) {
+      return rejectWithValue("Logout failed");
+    }
+  }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -65,6 +91,9 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.token = null;
+        },
+        setToken: (state, action: PayloadAction<string>) => {
+            state.token = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -90,14 +119,31 @@ const authSlice = createSlice({
         .addCase(loginUser.fulfilled, (state, action) => {
             state.loading = false;
             state.user = action.payload.user;
-            state.token = action.payload.token;
+            state.token = action.payload.accessToken;
         })
         .addCase(loginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string || "Login failed";
+        });
+
+        // checkAuth cases
+        builder
+        .addCase(checkAuth.fulfilled, (state, action) => {
+            state.token = action.payload.accessToken;
+        })
+        .addCase(checkAuth.rejected, (state) => {
+            state.user = null;
+            state.token = null;
+        });
+
+        // logout case
+        builder
+        .addCase(logoutUser.fulfilled, (state) => {
+            state.user = null;
+            state.token = null;
         })
     }
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setToken } = authSlice.actions;
 export default authSlice.reducer;

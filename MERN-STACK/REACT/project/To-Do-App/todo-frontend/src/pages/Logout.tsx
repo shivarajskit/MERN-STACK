@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
-import { logout } from "../store/slices/authSlice";
+import { logoutUser } from "../store/slices/authSlice";
 
 const Logout: React.FC = () => {
     const navigate = useNavigate();
@@ -8,7 +8,7 @@ const Logout: React.FC = () => {
     return (
         <button
             onClick={() => {
-                dispatch(logout());
+                dispatch(logoutUser());
                 navigate('/login');
             }}
             className="btn-logout"
