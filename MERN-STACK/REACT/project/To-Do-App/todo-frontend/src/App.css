@@ -1,0 +1,241 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ============================
+   Utility Replacements for Tailwind
+   ============================ */
+/* ============================
+   Global Card & Layout Styles
+   ============================ */
+
+/* max-w-md mx-auto mt-10 p-4 border rounded shadow */
+.card {
+  max-width: 28rem;        /* max-w-md */
+  margin-left: auto;       /* mx-auto */
+  margin-right: auto;
+  margin-top: 2.5rem;      /* mt-10 */
+  padding: 1rem;           /* p-4 */
+  border: 1px solid #e5e7eb; /* border (gray-200) */
+  border-radius: 0.25rem;  /* rounded */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1),
+              0 1px 2px rgba(0,0,0,0.06); /* shadow */
+  background-color: #fff;
+}
+
+/* p-4 wrapper (like Dashboard) */
+.section {
+  padding: 1rem;
+}
+
+/* ============================
+   Typography
+   ============================ */
+
+/* text-xl font-bold mb-4 */
+.heading-xl {
+  font-size: 1.25rem;   /* text-xl */
+  line-height: 1.75rem;
+  font-weight: 700;     /* font-bold */
+  margin-bottom: 1rem;  /* mb-4 */
+}
+
+/* text-2xl font-bold mb-4 */
+.heading-2xl {
+  font-size: 1.5rem;    /* text-2xl */
+  line-height: 2rem;
+  font-weight: 700;     /* font-bold */
+  margin-bottom: 1rem;  /* mb-4 */
+}
+
+/* text-gray-500 */
+.text-muted {
+  color: #6B7280;
+}
+
+/* ============================
+   Forms
+   ============================ */
+
+/* w-full p-2 border rounded */
+.input {
+  width: 100%;
+  padding: 0.5rem; /* p-2 */
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.25rem; /* rounded */
+  outline: none;
+}
+
+/* flex gap-2 mb-4 */
+.form-row {
+  display: flex;
+  gap: 0.5rem; /* gap-2 */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+/* flex-grow */
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* ============================
+   Buttons
+   ============================ */
+
+/* w-full bg-blue-500 text-white p-2 rounded */
+.btn {
+  width: 100%;
+  background-color: #3B82F6; /* blue-500 */
+  color: #fff;
+  padding: 0.5rem; /* p-2 */
+  border-radius: 0.25rem; /* rounded */
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #2563EB; /* blue-600 */
+}
+
+/* Add button (bg-blue-500 px-4 py-2 rounded hover:bg-blue-600) */
+.btn-add {
+  background-color: #3B82F6;
+  color: #fff;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  background-color: #2563EB;
+}
+
+/* text-red-500 (delete button) */
+.btn-delete {
+  color: #EF4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ============================
+   Error / Alerts
+   ============================ */
+
+/* bg-red-100 text-red-700 p-2 mb-2 rounded */
+.error-box {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* ============================
+   Lists & Tasks
+   ============================ */
+
+/* mt-4 */
+.task-list {
+  margin-top: 1rem;
+}
+
+/* flex justify-between items-center p-2 border-b */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem; /* p-2 */
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+}
+
+/* cursor-pointer */
+.task-title {
+  cursor: pointer;
+}
+
+/* line-through text-gray-500 */
+.task-completed {
+  text-decoration: line-through;
+  color: #6B7280;
+}
+
+/* flex justify-between items-center mb-4 */
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Logout button (bg-red-500 text-white px-4 py-2 rounded) */
+.btn-logout {
+  background-color: #EF4444; /* red-500 */
+  color: #fff;              /* text-white */
+  padding: 0.5rem 1rem;     /* py-2 px-4 */
+  border-radius: 0.25rem;   /* rounded */
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;      /* optional: text-sm look */
+}
+
+.btn-logout:hover {
+  background-color: #DC2626; /* red-600 */
+}
+
+/* Auth link (text-blue-500 hover:underline text-sm block text-center) */
+.auth-link {
+  color: #3B82F6;       /* blue-500 */
+  font-size: 0.875rem;  /* text-sm */
+  display: block;       /* block */
+  text-align: center;   /* text-center */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  text-decoration: underline; /* hover:underline */
+}
+
+/* toastify override */
+.Toastify__toast {
+  font-size: 15px;
+  border-radius: 8px;
+}
