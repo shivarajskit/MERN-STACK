@@ -100,3 +100,309 @@ You’ll have a To-Do MERN app (with auth + protected routes).
 You’ll know components, props, state, hooks, router, Redux, forms.
 
 This app will become your portfolio-ready project.
+
+
+
+------------------------------------------------------------------------------------
+Below questions are DONE
+----------------------------------------------------------------------------------
+
+
+Mock Interview Questions & Answers (React + Frontend Focused for Australia):
+1. React: What is the Virtual DOM and how does React use it?
+Answer:
+The Virtual DOM is a lightweight in-memory representation of the real DOM. React compares the Virtual DOM with the previous version using a diffing algorithm and updates only the changed parts in the real DOM, improving performance.
+
+2. What are controlled and uncontrolled components in React?
+Answer:
+Controlled components have form data managed by React state.
+Uncontrolled components use a ref to access DOM elements directly. Controlled components are preferred for better control over form elements.
+
+3. How do you manage state in a large React app?
+Answer:
+Options include:
+
+Local state using useState, useReducer
+
+Context API for shared state
+
+Redux / Zustand for global state
+
+React Query for server state (data fetching)
+
+4. Difference between useEffect and useLayoutEffect?
+Answer:
+
+useEffect runs after render is committed to screen
+
+useLayoutEffect runs synchronously after DOM mutations but before the browser paints.
+Use useLayoutEffect for measurements or layout updates.
+
+5. What are common web performance best practices?
+Answer:
+
+Lazy loading images/components
+
+Code splitting
+
+Minifying assets
+
+Caching, CDN usage
+
+Avoiding memory leaks
+
+Using useMemo, React.memo
+
+6. Tailwind CSS vs traditional CSS/SCSS?
+Answer:
+Tailwind is utility-first and encourages composition with small reusable classes. Traditional CSS uses classes and selectors. Tailwind improves consistency and avoids large stylesheet maintenance.
+
+7. What is CSR vs SSR? How does it impact SEO?
+Answer:
+
+CSR (Client-Side Rendering): JS renders content on the browser.
+
+SSR (Server-Side Rendering): HTML is rendered on the server, better for SEO and faster initial page load.
+Next.js is popular for SSR.
+
+8. Explain the event delegation in JavaScript.
+Answer:
+Instead of adding event listeners to many child elements, you attach it to a common parent. The event bubbles up to the parent, and you handle it there. Improves performance and flexibility.
+
+9. Difference between == and ===?
+Answer:
+
+== does type coercion
+
+=== checks both value and type
+Always use === for safer comparisons.
+
+10. What is a pure component in React?
+Answer:
+A component that only re-renders when its props or state change. React.memo() can make function components pure.
+
+
+
+
+// Important Interview Questions React
+
+
+1. React Hooks
+
+Q: What are React Hooks? Why are they used?
+A: Hooks are functions that let you “hook into” React features like state and lifecycle without writing class components.
+
+Most important hooks (in order of importance for interviews):
+
+useState → manage local state
+
+useEffect → perform side effects (API calls, subscriptions, timers)
+
+useContext → share global data without prop drilling
+
+useReducer → complex state logic
+
+useMemo → memoize expensive calculations
+
+useCallback → memoize functions
+
+useRef → reference DOM elements or persist mutable values
+
+Example:
+
+const [count, setCount] = useState(0);
+useEffect(() => {
+  console.log('Count updated');
+}, [count]);
+
+🧩 2. Higher Order Components (HOC)
+
+Q: What are Higher Order Components in React?
+A: A HOC is a function that takes a component and returns a new component with additional functionality.
+
+Syntax:
+
+const withLogger = (WrappedComponent) => {
+  return (props) => {
+    console.log('Rendering with props:', props);
+    return <WrappedComponent {...props} />;
+  };
+};
+
+
+Usage:
+
+Reuse logic across multiple components (e.g., authentication checks, analytics, permissions).
+
+Used before hooks were introduced, now replaced by custom hooks in most cases.
+
+Example:
+
+const AuthHOC = (Component) => (props) => {
+  const isLoggedIn = localStorage.getItem('token');
+  return isLoggedIn ? <Component {...props} /> : <Navigate to="/login" />;
+};
+
+🔁 3. Lifecycle Methods
+
+Q: What are lifecycle methods in React?
+A: These are methods in class components that run at different stages of a component’s life.
+
+Phases:
+
+Mounting: constructor, componentDidMount
+
+Updating: componentDidUpdate
+
+Unmounting: componentWillUnmount
+
+Functional equivalents:
+
+useEffect(() => {...}, []) → componentDidMount
+
+useEffect(() => {...}) → componentDidUpdate
+
+useEffect(() => {...return cleanup}, []) → componentWillUnmount
+
+🧱 4. State Management (State, Props, Redux, Context)
+
+Key Concepts:
+
+State = internal, mutable data
+
+Props = external, read-only inputs
+
+Prop drilling = passing props deeply → solved using Context API
+
+Redux Toolkit (RTK) = centralized global state
+
+Zustand = lightweight alternative
+
+Example:
+
+const MyContext = React.createContext();
+
+🧰 5. Custom Hooks
+
+Q: What are custom hooks and why use them?
+A: Reusable logic extracted from components to improve readability and maintainability.
+
+Example:
+
+const useLocalStorage = (key, initialValue) => {
+  const [value, setValue] = useState(() => localStorage.getItem(key) || initialValue);
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [key, value]);
+  return [value, setValue];
+};
+
+⚡ 6. Lazy Loading / Code Splitting
+
+Q: What is lazy loading?
+A: Loading components only when they are needed — improves performance and reduces initial load time.
+
+Example:
+
+const About = React.lazy(() => import('./About'));
+<Suspense fallback={<div>Loading...</div>}>
+  <About />
+</Suspense>
+
+🌳 7. Virtual DOM & Reconciliation
+
+Q: What is the Virtual DOM?
+A: A lightweight copy of the real DOM that React uses to optimize UI updates.
+
+Process:
+
+React creates a virtual DOM tree.
+
+When state changes, React diffs the old and new trees (Reconciliation).
+
+Only changed elements are updated in the real DOM (via React Fiber algorithm).
+
+🌍 8. SSR vs CSR
+
+Q: What’s the difference between Server-Side Rendering (SSR) and Client-Side Rendering (CSR)?
+A:
+
+Feature	SSR	CSR
+Rendered by	Server	Browser
+SEO	Better	Poorer
+Performance	Faster first load	Slower initial load
+Example	Next.js	React.js
+🚦 9. Routing & Role-Based Access (RBAC)
+
+Topics:
+
+Routing: Using react-router-dom
+
+Protected Routes: Require authentication
+
+RBAC: Limit access based on user roles
+
+Example:
+
+const PrivateRoute = ({ children }) => {
+  const user = useAuth();
+  return user ? children : <Navigate to="/login" />;
+};
+
+🧪 10. Testing
+
+Tools:
+
+Jest
+
+React Testing Library (RTL)
+
+Example test:
+
+import { render, screen } from '@testing-library/react';
+import App from './App';
+test('renders heading', () => {
+  render(<App />);
+  expect(screen.getByText(/hello/i)).toBeInTheDocument();
+});
+
+
+Bonus Tip: Mention “testing” in your interview → shows you care about maintainability.
+
+⏳ 11. Async Tasks & useEffect
+
+Q: How do you handle asynchronous tasks in React?
+A: Using Promises, async/await, and useEffect.
+
+Example:
+
+useEffect(() => {
+  const fetchData = async () => {
+    const res = await fetch('/api/data');
+    const data = await res.json();
+    setData(data);
+  };
+  fetchData();
+}, []);
+
+🧩 12. Promises & Async/Await
+
+Q: What are Promises in JS?
+A: Objects representing eventual completion or failure of an asynchronous operation.
+
+Example:
+
+fetch('/api')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+
+
+Or using async/await:
+
+try {
+  const res = await fetch('/api');
+  const data = await res.json();
+} catch (err) {
+  console.error(err);
+}
