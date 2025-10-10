@@ -406,8 +406,14 @@ let copiedObj = deepCopy(obj);
 console.log("Copied Object: ", copiedObj)
 
 
-//
+1.
 diff b/n flexbox and grid is
 flexbox - one dimensional
 
 css grid - 2D
+
+2.
+how to make image responsive
+
+use max-width and make hight: auto;
+
