@@ -417,3 +417,8 @@ how to make image responsive
 
 use max-width and make hight: auto;
 
+3.
+pixels - fixwd
+% - how much % of fixed container
+em - parent if lets say 14px font. child can be 2m which is 28px which is relative to parent
+rem - w.r.t viewport?
