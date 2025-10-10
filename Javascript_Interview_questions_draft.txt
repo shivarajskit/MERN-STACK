@@ -424,3 +424,7 @@ em - parent if lets say 14px font. child can be 2m which is 28px which is relati
 rem - w.r.t viewport?
 
 4. semantic tags for SEO and Accessibility
+
+5.
+Debouncing - delay after user stops typing (ex. search typeahead)
+Throttling - executes every 1 second (1 second or anything) - ex. window scroll, resize, mousemove
