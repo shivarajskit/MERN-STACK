@@ -428,3 +428,8 @@ rem - w.r.t viewport?
 5.
 Debouncing - delay after user stops typing (ex. search typeahead)
 Throttling - executes every 1 second (1 second or anything) - ex. window scroll, resize, mousemove
+
+
+6.
+[1,2]+[3,4] = "1,23,4"
+to achieve = do [1,2].concat([3,4]) // → [1,2,3,4]
