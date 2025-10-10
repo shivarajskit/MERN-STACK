@@ -404,3 +404,10 @@ function deepCopy(original) {
 let copiedObj = deepCopy(obj);
 
 console.log("Copied Object: ", copiedObj)
+
+
+//
+diff b/n flexbox and grid is
+flexbox - one dimensional
+
+css grid - 2D
