@@ -460,6 +460,8 @@ to achieve = do [1,2].concat([3,4]) // → [1,2,3,4]
 	Fourth call:
 	str = ""
 	→ Base case → returns ""
+	
+NOTE: REverse:  string.split('').reverse().join('')	
 
 
 10. get duplicates 
@@ -500,3 +502,5 @@ let aa = 100;
 let b = ++aa + aa++;  // 101 + 101 = 202
 console.log(b);  // 202
 console.log(aa); // 102
+
+
