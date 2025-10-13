@@ -495,3 +495,8 @@ console.log(a);   // 1
 console.log(rest); // [2,3,4]
 
 
+14.
+let aa = 100;
+let b = ++aa + aa++;  // 101 + 101 = 202
+console.log(b);  // 202
+console.log(aa); // 102
