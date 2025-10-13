@@ -475,3 +475,15 @@ for (const num of arr) {
 
 console.log([...duplicates]); // 👉 [1, 2]
 
+11. how many occurances of substring in a string
+"hello strings llo".match(/llo/gi).length 
+// 2
+
+12.
+"" && "hello"      // "" (first falsy)
+"foo" && 0         // 0 (first falsy)
+"foo" && "bar"     // "bar" (last truthy)
+0 && "bar"         // 0 (first falsy)
+Note: Useful in React condition rendering: {isLoggedIn && <Dashboard />}
+
+
