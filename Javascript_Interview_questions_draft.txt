@@ -433,3 +433,45 @@ Throttling - executes every 1 second (1 second or anything) - ex. window scroll,
 6.
 [1,2]+[3,4] = "1,23,4"
 to achieve = do [1,2].concat([3,4]) // → [1,2,3,4]
+
+7. 0.1+0.2 == 0.3 -> //false
+
+8. typeof NaN = 'number'
+
+
+9. reverse string:
+
+	function reverse(str) {
+	  if (str === '') return str;
+	  return reverse(str.substring(1))+str.charAt(0);
+	}
+	First call:
+	str = "abc"
+	→ Not empty → reverse("bc") + "a"
+
+	Second call:
+	str = "bc"
+	→ Not empty → reverse("c") + "b"
+
+	Third call:
+	str = "c"
+	→ Not empty → reverse("") + "c"
+
+	Fourth call:
+	str = ""
+	→ Base case → returns ""
+
+
+10. get duplicates 
+const arr = [1, 2, 3, 2, 4, 5, 1, 6];
+
+const seen = new Set();
+const duplicates = new Set();
+
+for (const num of arr) {
+  if (seen.has(num)) duplicates.add(num);
+  seen.add(num);
+}
+
+console.log([...duplicates]); // 👉 [1, 2]
+
