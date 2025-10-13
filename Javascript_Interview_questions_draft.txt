@@ -487,3 +487,11 @@ console.log([...duplicates]); // 👉 [1, 2]
 Note: Useful in React condition rendering: {isLoggedIn && <Dashboard />}
 
 
+13.[a] = [1,2,3,4];
+console.log(a) // 1 //Array destructuring
+///////////////////////////////
+[a, ...rest] = [1, 2, 3, 4];
+console.log(a);   // 1
+console.log(rest); // [2,3,4]
+
+
