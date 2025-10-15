@@ -3,7 +3,7 @@ import { store } from './store/store';
 import { logoutUser, setToken } from './store/slices/authSlice';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://mern-stack-todo-app-6ud6.onrender.com/',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -12,7 +12,7 @@ const api = axios.create({
 
 // 🔑 A separate axios instance (no interceptors) for refresh
 const refreshApi = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://mern-stack-todo-app-6ud6.onrender.com/",
   withCredentials: true,
 });
 
