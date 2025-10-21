@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
 import { loginUser } from "../store/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useForm } from "react-hook-form";
@@ -17,9 +16,6 @@ const Login: React.FC = () => {
         resolver: yupResolver(loginSchema)
     });
 
-
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
